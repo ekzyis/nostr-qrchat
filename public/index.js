@@ -14,6 +14,7 @@ for (const el of document.querySelectorAll(".npubRecipient")) {
   el.textContent = formatKey(npubRecipient);
 }
 
+const history = document.getElementById("history");
 const errorEl = document.getElementById("error");
 
 const relays = [
@@ -39,9 +40,22 @@ async function decryptDM(content) {
   return NostrTools.nip04.decrypt(sk, pk2, content);
 }
 
+function addMessageToHistory(msg, pubkey) {
+  const recv = pubkey === pk2;
+  const bubble = document.createElement("div");
+  bubble.classList.add("chat-bubble");
+  bubble.classList.add(recv ? "recv" : "send");
+  const text = document.createElement("div");
+  text.classList.add("chat-text");
+  text.textContent = msg;
+  bubble.appendChild(text);
+  history.appendChild(bubble);
+}
+
 sub.on("event", async (event) => {
   const msg = await decryptDM(event.content);
   console.log(`Received msg: content=${msg} id=${event.id}`);
+  addMessageToHistory(msg, event.pubkey);
 });
 
 async function createEncryptedDM(msg) {
@@ -71,6 +85,7 @@ async function createEncryptedDM(msg) {
 async function sendEncryptedDM(msg) {
   const event = await createEncryptedDM(msg);
   console.log(`Sending msg: content=${msg} id=${event.id}`);
+  addMessageToHistory(msg, pk1);
   const pubs = pool.publish(relays, event);
   pubs.on("ok", () => {
     // this may be called multiple times, once for every relay that accepts the event
