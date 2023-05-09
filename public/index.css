@@ -6,6 +6,11 @@ body {
   margin: 0;
 }
 
+input:focus {
+  outline: none;
+  caret-color: black;
+}
+
 .container {
   min-width: fit-content;
   max-width: 800px;
