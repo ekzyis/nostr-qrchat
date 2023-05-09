@@ -54,16 +54,9 @@ func fileHandler(h http.Handler) http.Handler {
 	})
 }
 
-func chatHandler(w http.ResponseWriter, r *http.Request) {
-	message := r.URL.Query().Get("msg")
-	response := "Received message: " + message
-	fmt.Fprint(w, response)
-}
-
 func main() {
 	fs := http.FileServer(http.Dir("public"))
 	http.Handle("/", fileHandler(fs))
-	http.HandleFunc("/chat", chatHandler)
 
 	log.Println("Server started on http://localhost:8080")
 	err := http.ListenAndServe(":8080", nil)
