@@ -8,6 +8,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="stylesheet" href="/index.css" />
+    <link rel="stylesheet" href="/chat.css" />
     <script>
       var nsec = "" /** NSEC SESSION KEY **/;
       var npub = "" /** NPUB SESSION KEY **/;
@@ -16,7 +17,7 @@
     <script src="/nostr.bundle.js"></script>
   </head>
   <body class="h-full">
-    <div class="flex flex-column text-center justify-center h-100vh">
+    <div class="container flex flex-column text-center justify-center h-100vh">
       <div class="font-mono">ephemeral, anonymous</div>
       <code>
         <strong>
@@ -32,8 +33,10 @@
       <div class="font-mono mb-1">over nostr</div>
       <div class="font-mono mb-1">You are: <span class="npub"></span></div>
       <div class="font-mono mb-1">Recipient: <span class="npubRecipient"></span></div>
-      <div class="chat">
-        <form id="chat-form" class="chat-input text-center" method="post" action="/chat">
+      <div id="chat">
+        <div id="history">
+        </div>
+        <form id="chat-form" class="text-center" method="post" action="/chat">
           <input class="p-1" name="msg" placeholder="Enter your message" />
           <button class="p-1">Send</button>
         </div>

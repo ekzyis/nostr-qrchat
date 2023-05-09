@@ -6,6 +6,13 @@ body {
   margin: 0;
 }
 
+.container {
+  min-width: fit-content;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .flex {
   display: flex
 }
@@ -34,6 +41,10 @@ body {
   justify-content: center
 }
 
+.justify-end {
+  justify-content: flex-end
+}
+
 .items-center {
   align-items: center
 }
@@ -52,17 +63,4 @@ body {
 
 .p-1 {
   padding: 1em;
-}
-
-.chat {
-  display: flex;
-  justify-content: center;
-  position: relative;
-  height: 200px;
-}
-
-.chat-input {
-  position: absolute;
-  bottom: 0;
-  padding: 0.5rem;
 }
