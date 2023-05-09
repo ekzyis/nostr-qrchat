@@ -1,3 +1,5 @@
+console.log(`Your session keys:\n${nsec} ${npub}`);
+
 document.getElementById("chat-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const form = event.target;
