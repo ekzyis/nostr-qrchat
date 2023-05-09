@@ -110,3 +110,12 @@ document
 
     form.reset();
   });
+
+setTimeout(() => {
+  // notify recipient about new session
+  createEncryptedDM("new QRchat session").then((event) => {
+    pool.publish(relays, event);
+  });
+  const prompt = "Hi. Who's there?";
+  addMessageToHistory(prompt, pk2);
+}, 3000);
