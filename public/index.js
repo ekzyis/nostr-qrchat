@@ -35,8 +35,13 @@ const sub = pool.sub(relays, [
   },
 ]);
 
-sub.on("event", (event) => {
-  console.log("received event:", event.content);
+async function decryptDM(content) {
+  return NostrTools.nip04.decrypt(sk, pk2, content);
+}
+
+sub.on("event", async (event) => {
+  const msg = await decryptDM(event.content);
+  console.log(`Received msg: content=${msg} id=${event.id}`);
 });
 
 async function createEncryptedDM(msg) {
