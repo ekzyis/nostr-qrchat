@@ -9,6 +9,8 @@ for (const el of document.querySelectorAll(".npub")) {
   el.textContent = npub.slice(0, 10) + ".." + npub.slice(-10);
 }
 
+const errorEl = document.getElementById("error");
+
 const relays = [
   "wss://relay.damus.io/",
   "wss://nostr-pub.wellorder.net/",
@@ -47,13 +49,11 @@ async function createEncryptedDM(msg) {
 
   let ok = NostrTools.validateEvent(event);
   if (!ok) {
-    console.error("event validation failed");
-    return null;
+    throw new Error("event validation failed");
   }
   let sigOk = NostrTools.verifySignature(event);
   if (!sigOk) {
-    console.error("signature verification failed");
-    return null;
+    throw new Error("signature verification failed");
   }
   return event;
 }
@@ -75,7 +75,13 @@ document
 
     const form = event.target;
     const msg = form.elements["msg"].value;
-    await sendEncryptedDM(msg);
+    await sendEncryptedDM(msg)
+      .then(() => {
+        errorEl.textContent = "";
+      })
+      .catch((err) => {
+        errorEl.textContent = err;
+      });
 
     form.reset();
   });

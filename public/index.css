@@ -26,6 +26,10 @@ body {
   font-family: "Lucida Console", "Courier New", monospace;
 }
 
+.fg-red {
+  color: red;
+}
+
 .justify-center {
   justify-content: center
 }
