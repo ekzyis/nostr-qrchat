@@ -100,6 +100,7 @@ document
 
     const form = event.target;
     const msg = form.elements["msg"].value;
+    if (!msg) return;
     await sendEncryptedDM(msg)
       .then(() => {
         errorEl.textContent = "";
