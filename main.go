@@ -2,13 +2,54 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"regexp"
 )
 
-func fileServerHandler(w http.ResponseWriter, r *http.Request) {
-	fs := http.FileServer(http.Dir("public"))
-	fs.ServeHTTP(w, r)
+var (
+	NsecSessionKeyRegexp = regexp.MustCompile(regexp.QuoteMeta(`"" /** NSEC SESSION KEY **/`))
+	NpubSessionKeyRegexp = regexp.MustCompile(regexp.QuoteMeta(`"" /** NPUB SESSION KEY **/`))
+)
+
+func generateSession() (string, error) {
+	content, err := ioutil.ReadFile("public/index.html")
+	if err != nil {
+		return "", fmt.Errorf("error reading index.html: %w", err)
+	}
+
+	keys, err := GenerateKeyPair()
+	if err != nil {
+		return "", fmt.Errorf("error generating session keys: %w", err)
+	}
+	privKey, pubKey := keys[0], keys[1]
+
+	modifiedContent := NsecSessionKeyRegexp.ReplaceAllString(string(content), fmt.Sprintf(`"%s"`, privKey))
+	modifiedContent = NpubSessionKeyRegexp.ReplaceAllString(modifiedContent, fmt.Sprintf(`"%s"`, pubKey))
+
+	return modifiedContent, nil
+}
+
+func fileHandler(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path == "/" {
+			// intercept the request for the index.html file
+			// to generate a new session
+			indexFile, err := generateSession()
+			if err != nil {
+				log.Println(err)
+				http.Error(w, "Failed to generate session", http.StatusInternalServerError)
+				return
+			}
+			w.Header().Set("Content-Type", "text/html; charset=utf-8")
+			w.Write([]byte(indexFile))
+			return
+		}
+
+		// all other requests are passed to the underlying file server
+		h.ServeHTTP(w, r)
+	})
 }
 
 func chatHandler(w http.ResponseWriter, r *http.Request) {
@@ -18,7 +59,8 @@ func chatHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", fileServerHandler)
+	fs := http.FileServer(http.Dir("public"))
+	http.Handle("/", fileHandler(fs))
 	http.HandleFunc("/chat", chatHandler)
 
 	log.Println("Server started on http://localhost:8080")
