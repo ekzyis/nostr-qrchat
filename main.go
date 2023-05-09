@@ -9,8 +9,9 @@ import (
 )
 
 var (
-	NsecSessionKeyRegexp = regexp.MustCompile(regexp.QuoteMeta(`"" /** NSEC SESSION KEY **/`))
-	NpubSessionKeyRegexp = regexp.MustCompile(regexp.QuoteMeta(`"" /** NPUB SESSION KEY **/`))
+	NsecSessionKeyRegexp          = regexp.MustCompile(regexp.QuoteMeta(`"" /** NSEC SESSION KEY **/`))
+	NpubSessionKeyRegexp          = regexp.MustCompile(regexp.QuoteMeta(`"" /** NPUB SESSION KEY **/`))
+	NpubRecipientSessionKeyRegexp = regexp.MustCompile(regexp.QuoteMeta(`"" /** NPUB RECIPIENT KEY **/`))
 )
 
 func generateSession() (string, error) {
@@ -27,6 +28,7 @@ func generateSession() (string, error) {
 
 	modifiedContent := NsecSessionKeyRegexp.ReplaceAllString(string(content), fmt.Sprintf(`"%s"`, privKey))
 	modifiedContent = NpubSessionKeyRegexp.ReplaceAllString(modifiedContent, fmt.Sprintf(`"%s"`, pubKey))
+	modifiedContent = NpubRecipientSessionKeyRegexp.ReplaceAllString(modifiedContent, fmt.Sprintf(`"%s"`, NostrPubKey))
 
 	return modifiedContent, nil
 }
