@@ -5,8 +5,13 @@ const { data: sk } = NostrTools.nip19.decode(nsec);
 const { data: pk1 } = NostrTools.nip19.decode(npub);
 const { data: pk2 } = NostrTools.nip19.decode(npubRecipient);
 
+const formatKey = (key) => key.slice(0, 10) + ".." + key.slice(-10);
+
 for (const el of document.querySelectorAll(".npub")) {
-  el.textContent = npub.slice(0, 10) + ".." + npub.slice(-10);
+  el.textContent = formatKey(npub);
+}
+for (const el of document.querySelectorAll(".npubRecipient")) {
+  el.textContent = formatKey(npubRecipient);
 }
 
 const errorEl = document.getElementById("error");
