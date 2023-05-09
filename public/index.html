@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>QRChat</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -11,9 +11,9 @@
     <link rel="stylesheet" href="/index.css" />
     <link rel="stylesheet" href="/chat.css" />
     <script>
-      var nsec = "" /** NSEC SESSION KEY **/;
-      var npub = "" /** NPUB SESSION KEY **/;
-      var npubRecipient = "" /** NPUB RECIPIENT KEY **/;
+      var nsec = ""; /** NSEC SESSION KEY **/
+      var npub = ""; /** NPUB SESSION KEY **/
+      var npubRecipient = ""; /** NPUB RECIPIENT KEY **/
     </script>
     <script src="/nostr.bundle.js"></script>
   </head>
@@ -33,14 +33,15 @@
       </code>
       <div class="font-mono mb-1">over nostr</div>
       <div class="font-mono mb-1">You are: <span class="npub"></span></div>
-      <div class="font-mono mb-1">Recipient: <span class="npubRecipient"></span></div>
+      <div class="font-mono mb-1">
+        Recipient: <span class="npubRecipient"></span>
+      </div>
       <div id="chat">
-        <div id="history">
-        </div>
+        <div id="history"></div>
         <form id="chat-form" class="text-center">
           <input class="p-1" name="msg" placeholder="Enter your message" />
           <button class="p-1">Send</button>
-        </div>
+        </form>
         <div id="error" class="fg-red"></div>
       </div>
     </div>
