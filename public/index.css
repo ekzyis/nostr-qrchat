@@ -1,0 +1,64 @@
+body {
+  background-color: #091833;
+  color: #F5F5F5;
+  caret-color: transparent;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+
+.flex {
+  display: flex
+}
+
+.flex-column {
+  flex-direction: column
+}
+
+.text-center {
+  text-align: center
+}
+
+.font-bold {
+  font: bold
+}
+
+.font-mono {
+  font-family: "Lucida Console", "Courier New", monospace;
+}
+
+.justify-center {
+  justify-content: center
+}
+
+.items-center {
+  align-items: center
+}
+
+.h-100vh {
+  height: 100vh
+}
+
+.m-auto {
+  margin: auto
+}
+
+.mb-1 {
+  margin-bottom: 1em
+}
+
+.p-1 {
+  padding: 1em;
+}
+
+.chat {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  height: 200px;
+}
+
+.chat-input {
+  position: absolute;
+  bottom: 0;
+  padding: 0.5rem;
+}
