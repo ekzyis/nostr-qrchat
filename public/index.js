@@ -18,7 +18,7 @@ const errorEl = document.getElementById("error");
 
 const relays = [
   "wss://relay.damus.io/",
-  "wss://nostr-pub.wellorder.net/",
+  // "wss://nostr-pub.wellorder.net/",
   "wss://relay.snort.social/",
   "wss://relay.nostr.band/",
   "wss://nostr.wine/",
