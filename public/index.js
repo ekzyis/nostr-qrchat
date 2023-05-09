@@ -31,7 +31,7 @@ const pool = new NostrTools.SimplePool();
 const sub = pool.sub(relays, [
   {
     kinds: [4],
-    "#p": npub,
+    "#p": [pk1],
   },
 ]);
 
