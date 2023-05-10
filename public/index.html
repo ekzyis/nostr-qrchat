@@ -32,13 +32,15 @@
         </strong>
       </code>
       <div class="font-mono mb-1">over nostr</div>
-      <div class="font-mono mb-1">You are: <span class="npub"></span></div>
-      <div class="font-mono mb-1">
+      <div class="font-mono mb-1 session">
+        You are: <span class="npub"></span>
+      </div>
+      <div class="font-mono mb-1 session">
         Recipient: <span class="npubRecipient"></span>
       </div>
       <div id="chat">
-        <div id="history"></div>
-        <form id="chat-form" class="text-center">
+        <div id="history" class="session"></div>
+        <form id="chat-form" class="text-center session">
           <input class="p-1" name="msg" placeholder="Enter your message" />
           <button class="p-1">Send</button>
         </form>
