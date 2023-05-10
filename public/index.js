@@ -3,6 +3,7 @@ const validSession = !!nsec && !!npub && !!npubRecipient;
 const errorEl = document.getElementById("error");
 
 function initSession() {
+  console.log(`Session id: ${sessionId}`);
   console.log(`Your session keys:\n${nsec} ${npub}`);
   console.log(`You are writing to:\n${npubRecipient}`);
 
@@ -118,7 +119,9 @@ function initSession() {
 
   setTimeout(() => {
     // notify recipient about new session
-    createEncryptedDM("new QRchat session").then((event) => {
+    let msg = `new QRchat session`;
+    if (sessionId) msg += ` (id=${sessionId})`;
+    createEncryptedDM(msg).then((event) => {
       pool.publish(relays, event);
     });
     const prompt = "Hi. Who's there?";
