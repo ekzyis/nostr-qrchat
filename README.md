@@ -3,7 +3,7 @@
 <p align="center">
   <b><i>ephemeral, anonymous chat via QR codes over nostr</i></b><br/>
 <p align="center">
-  <a href="https://chat.ekzyis.com/d80100db1ba1574d">
+  <a href="https://chat.ekzyis.com/d80100db1ba1574d" target="_blank">
     <img src="./qr.png" alt="Example QR code">
   </a>
 </p>
