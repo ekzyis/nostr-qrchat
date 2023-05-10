@@ -22,6 +22,7 @@ var (
 	NsecSessionKeyRegexp          = regexp.MustCompile(regexp.QuoteMeta(`""; /** NSEC SESSION KEY **/`))
 	NpubSessionKeyRegexp          = regexp.MustCompile(regexp.QuoteMeta(`""; /** NPUB SESSION KEY **/`))
 	NpubRecipientSessionKeyRegexp = regexp.MustCompile(regexp.QuoteMeta(`""; /** NPUB RECIPIENT KEY **/`))
+	SessionIdRegexp               = regexp.MustCompile(regexp.QuoteMeta(`""; /** SESSION ID **/`))
 )
 
 func init() {
@@ -44,7 +45,7 @@ func init() {
 	}
 }
 
-func addSession(indexFile []byte) (string, error) {
+func addSession(indexFile []byte, token Token) (string, error) {
 	keys, err := GenerateKeyPair()
 	if err != nil {
 		return "", fmt.Errorf("error generating session keys: %w", err)
@@ -54,6 +55,7 @@ func addSession(indexFile []byte) (string, error) {
 	sessionFile := NsecSessionKeyRegexp.ReplaceAllString(string(indexFile), fmt.Sprintf(`"%s"`, privKey))
 	sessionFile = NpubSessionKeyRegexp.ReplaceAllString(sessionFile, fmt.Sprintf(`"%s"`, pubKey))
 	sessionFile = NpubRecipientSessionKeyRegexp.ReplaceAllString(sessionFile, fmt.Sprintf(`"%s"`, NostrPubKey))
+	sessionFile = SessionIdRegexp.ReplaceAllString(sessionFile, fmt.Sprintf(`"%s"`, token.Name))
 
 	return sessionFile, nil
 }
@@ -79,13 +81,13 @@ func handler(static http.Handler, session http.Handler) http.Handler {
 	})
 }
 
-func checkToken(token string) bool {
+func checkToken(token string) (Token, bool) {
 	for _, token_ := range Tokens {
 		if token_.Value == token {
-			return true
+			return token_, true
 		}
 	}
-	return false
+	return Token{}, false
 }
 
 func sessionHandler(w http.ResponseWriter, r *http.Request) {
@@ -95,15 +97,15 @@ func sessionHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "error reading index.html", http.StatusInternalServerError)
 		return
 	}
-	token := strings.TrimLeft(r.URL.Path, "/")
-	valid := checkToken(token)
+	pathToken := strings.TrimLeft(r.URL.Path, "/")
+	token, valid := checkToken(pathToken)
 	if !valid {
 		// Send index.html without session
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
 		w.Write(indexFile)
 		return
 	}
-	sessionFile, err := addSession(indexFile)
+	sessionFile, err := addSession(indexFile, token)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "error generating session", http.StatusInternalServerError)
