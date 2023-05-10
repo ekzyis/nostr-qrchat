@@ -1,12 +1,9 @@
 # nostr-qrchat
 
 <p align="center">
-  <b><i>ephemeral, anonymous QRchat over nostr</i></b><br/>
+  <b><i>ephemeral, anonymous chat via QR codes over nostr</i></b><br/>
 <p align="center">
   <img src="./qr.png" alt="Example QR code">
-</p>
-<p align="center">
-  Use QR codes to open ephemeral, anonymous chat sessions with people!
 </p>
 
 Use cases:
