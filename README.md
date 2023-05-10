@@ -10,7 +10,7 @@
 
 Use cases:
 
-- put a QR code at your letter box so people at your door can reach you without any PII
+- put a QR code on your letter box so people at your door can reach you without any PII
 - put QR codes anywhere where people may want to open instant support chat sessions
 - put QR code at your website to let people chat with you
 - ...
