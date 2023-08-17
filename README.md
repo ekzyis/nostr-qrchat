@@ -24,7 +24,7 @@ Every QR code is linked to a specific token. This has following advantages:
 
 ## Setup
 
-1. Clone repository: `git clone git@github.com:ekzyis/nostr-qrchat`
+1. Clone repository: `git clone git@[git.ekzyis.com:55680]:ekzyis/nostr-qrchat`
 2. Build binary: `go build`
 3. Enter your bech32 nostr pubkey (npub) as `NOSTR_PUBKEY` in `.env`
 4. Generate random token: `openssl rand -hex 8 >> tokens`
